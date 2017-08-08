@@ -66,12 +66,18 @@ namespace EasyFarm.States {
             if (TrustInParty(trust) && TrustNeedsDismissal(trust)) {
                 ReleaseTrust(trust);
             }
-            return (!TrustInParty(trust) && PartyHasSpace());
+            return (!TrustInParty(trust) && PartyHasSpace() && trust.IsAvailable);
         }
 
         private bool TrustNeedsDismissal(BattleAbility trust) {
             var t = FindPartyMember(trust);
             if (t == null) return false;
+
+            // If the trust is not available during this time
+            if (!trust.IsAvailable)
+            {
+                return true;
+            }
 
             // If the trust is set to be resummonable, respect the MP.
             if (trust.ResummonOnLowMP)
@@ -113,7 +119,7 @@ namespace EasyFarm.States {
             var trusts = Config.Instance.BattleLists["Trusts"].Actions.Where(t => t.IsEnabled);
             foreach (var trust in trusts)
             {
-                if (TrustNeedsDismissal(trust) || (!TrustInParty(trust) && PartyHasSpace())) 
+                if (TrustNeedsDismissal(trust) || (!TrustInParty(trust) && PartyHasSpace() && trust.IsAvailable)) 
                 {
                     return true;
                 }

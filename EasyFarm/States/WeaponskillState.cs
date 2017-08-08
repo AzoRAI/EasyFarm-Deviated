@@ -54,6 +54,7 @@ namespace EasyFarm.States
             var weaponskill = Config.Instance.BattleLists["Weaponskill"].Actions
                 .FirstOrDefault(x => ActionFilters.TargetedFilter(fface, x, Target));
             if (weaponskill == null) return;
+            if (!weaponskill.IsAvailable) return;
             _executor.UseTargetedActions(new [] { weaponskill }, Target);
         }
     }

@@ -148,6 +148,16 @@
                 </UniformGrid>
             </GroupBox>
 
+            <GroupBox Name="grpTimeOfDay" Header="Time of Day Settings">
+                <UniformGrid Columns="2">
+                    <Label Content="Available Beginning" Margin="5,5,5,5" />
+                    <TextBox Text="{Binding AvailableTimeStart}" Name="txtTimeStart" Margin="5,5,5,5" />
+
+                    <Label Content="Available End" Margin="5,5,5,5"/>
+                    <TextBox Text="{Binding AvailableTimeStop}" Name="txtTimeEnd" Margin="5,5,5,5" />
+                </UniformGrid>    
+            </GroupBox>
+            
             <GroupBox Name="grpTrusts" Header="Trust Settings">
                 <UniformGrid Columns="2">
                     <CheckBox Margin="5,5,5,5"

@@ -45,6 +45,11 @@ namespace EasyFarm.Classes
             {
                 foreach (var action in castables.ToList())
                 {
+                    if (!action.IsAvailable)
+                    {
+                        castables.Remove(action);
+                        continue;
+                    }
                     if (!ActionFilters.BuffingFilter(_fface, action))
                     {
                         castables.Remove(action);
@@ -75,6 +80,11 @@ namespace EasyFarm.Classes
 
                 _fface.Navigator.Reset();
                 TimeWaiter.Pause(100);
+                
+                if (!action.IsAvailable)
+                {
+                    continue;
+                }
 
                 if (ResourceHelper.IsSpell(action.Ability.AbilityType))
                 {

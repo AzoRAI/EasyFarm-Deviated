@@ -71,6 +71,7 @@ namespace EasyFarm.States
             var action = Config.Instance.BattleLists["Battle"].Actions
                 .FirstOrDefault(x => ActionFilters.TargetedFilter(fface, x, Target));        
             if (action == null) return;
+            if (!action.IsAvailable) return;
             _executor.UseTargetedActions(new[] { action }, Target);
         }
     }

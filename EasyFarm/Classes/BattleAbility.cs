@@ -150,6 +150,16 @@ namespace EasyFarm.Classes
         /// </summary>
         private int _resummonMpHigh;
 
+        /// <summary>
+        /// When the ability becomes available for use
+        /// </summary>
+        private double _availableTimeStart;
+
+        /// <summary>
+        /// When the ability is unable to be used
+        /// </summary>
+        private double _availableTimeEnd;
+
 
         static BattleAbility()
         {
@@ -456,6 +466,38 @@ namespace EasyFarm.Classes
             {
                 SetProperty(ref _resummonMpHigh, value);
                 AppServices.InformUser($"Resummon MP Range set {_resummonMpLow} TO {_resummonMpHigh}.");
+            }
+        }
+
+        public double AvailableTimeStart
+        {
+            get { return _availableTimeStart; }
+            set
+            {
+                SetProperty(ref _availableTimeStart, value);
+                AppServices.InformUser($"Available Time Range set {_availableTimeStart} TO {_availableTimeEnd}.");
+            }
+        }
+
+        public double AvailableTimeStop
+        {
+            get { return _availableTimeEnd; }
+            set
+            {
+                SetProperty(ref _availableTimeEnd, value);
+                AppServices.InformUser($"Available Time Range set {_availableTimeStart} TO {_availableTimeEnd}.");
+            }
+        }
+
+        public bool IsAvailable
+        {
+            get
+            {
+                var t = VanaTime.Now;
+                return (
+                    AvailableTimeStart <= VanaTime.Now.DoubleValue &&
+                    AvailableTimeStop >= VanaTime.Now.DoubleValue
+                );
             }
         }
         
