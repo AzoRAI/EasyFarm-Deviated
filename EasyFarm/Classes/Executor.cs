@@ -1,26 +1,26 @@
-﻿/*///////////////////////////////////////////////////////////////////
-<EasyFarm, general farming utility for FFXI.>
-Copyright (C) <2013>  <Zerolimits>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-*/
-///////////////////////////////////////////////////////////////////
-
+﻿// ///////////////////////////////////////////////////////////////////
+// This file is a part of EasyFarm for Final Fantasy XI
+// Copyright (C) 2013-2017 Mykezero
+// 
+// EasyFarm is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// EasyFarm is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// If not, see <http://www.gnu.org/licenses/>.
+// ///////////////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using EasyFarm.Parsing;
+using EasyFarm.UserSettings;
 using MemoryAPI;
 using StatusEffect = MemoryAPI.StatusEffect;
 
@@ -33,7 +33,27 @@ namespace EasyFarm.Classes
         public Executor(IMemoryAPI fface)
         {
             _fface = fface;
-        }                
+        }
+
+        public void UseActions(IEnumerable<BattleAbility> actions)
+        {
+            if (actions == null) throw new ArgumentNullException(nameof(actions));
+
+            foreach (var action in actions.ToList())
+            {
+                if (!ActionFilters.BuffingFilter(_fface, action))
+                {
+                    continue;
+                }
+
+                if (!CastSpell(action)) continue;
+
+                action.Usages++;
+                action.LastCast = DateTime.Now.AddSeconds(action.Recast);
+
+                TimeWaiter.Pause(Config.Instance.GlobalCooldown);
+            }
+        }
 
         public void UseBuffingActions(IEnumerable<BattleAbility> actions)
         {

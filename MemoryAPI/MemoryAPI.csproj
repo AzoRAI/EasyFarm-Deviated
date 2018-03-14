@@ -41,6 +41,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,13 +50,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chat\IChatTools.cs" />
     <Compile Include="Enums\enums.cs" />
     <Compile Include="Enums\NPCType.cs" />
     <Compile Include="Enums\Structures.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="IMemoryAPI.cs" />
+    <Compile Include="Memory\EliteApiExtensions.cs" />
     <Compile Include="Memory\EliteMMOWrapper.cs" />
     <Compile Include="Memory\MemoryWrapper.cs" />
+    <Compile Include="Memory\PollingProcessor.cs" />
+    <Compile Include="Memory\RuntimeCache.cs" />
     <Compile Include="Navigation\Position.cs" />
     <Compile Include="Navigation\INavigatorTools.cs" />
     <Compile Include="NPC\INPCTools.cs" />
